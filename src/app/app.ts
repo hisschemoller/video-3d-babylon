@@ -1,4 +1,4 @@
-import { ArcRotateCamera, DirectionalLight, Engine, FreeCamera, HemisphericLight, MeshBuilder, Scene, ShadowGenerator, StandardMaterial, Vector3 } from 'babylonjs';
+import { ArcRotateCamera, DirectionalLight, Engine, FreeCamera, HemisphericLight, MeshBuilder, Scene, ShadowGenerator, StandardMaterial, Texture, Vector3 } from 'babylonjs';
 
 export default function setup() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -20,9 +20,14 @@ export default function setup() {
 	camera.upperRadiusLimit = 50;
 	camera.attachControl(canvas, true);
 
+  const groundTexture = new Texture('images/testimage3d.jpg', scene);
+  groundTexture.uScale = 0.5;
+
+  const groundMaterial = new StandardMaterial('groundMaterial', scene);
+  groundMaterial.diffuseTexture = groundTexture;
+
   const ground = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
-  // const groundMaterial = new StandardMaterial('groundMaterial', scene);
-  // ground.material = groundMaterial;
+  ground.material = groundMaterial;
   ground.receiveShadows = true;
 
   const box = MeshBuilder.CreateBox('box', { width: 2, height: 1.5, depth: 0.1 }, scene);
